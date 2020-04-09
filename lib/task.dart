@@ -16,7 +16,12 @@ class _TaskState extends State<Task> {
 
   @override
   Widget build(BuildContext context) {
-    throw UnimplementedError();
+    return Column(
+      children: <Widget>[
+        Text("$widget.title"),
+        Text("$widget.deadline")
+      ],
+    );
   }
 
 
