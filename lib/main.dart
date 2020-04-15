@@ -44,11 +44,19 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Center(child: Text("Some shit here", style: TextStyle(color: Colors.white))),
           ),
           Expanded(
-            child: Container(
-              color: Color(0xff010f1c),
-              // child: Task("This is sample title", DateTime.now()),
-            ),
+            child:Row(
+              children: <Widget>[
+                Expanded(
+                  child: Container(
+                    color: Color(0xff010f1c),
+                    // child: Task(title: "This is sample title", deadline: DateTime.now()),
+                  ),
+                )
+              ],
+            ) 
           )
+          
+          
         ],
       )
     );
