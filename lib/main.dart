@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'task.dart';
 import 'forms.dart';
+import 'shell.dart';
 
 void main() {
   runApp(MyApp());
@@ -77,59 +78,15 @@ class _MyHomePageState extends State<MyHomePage> {
               children: <Widget>[
                 Expanded(
                   flex: 3,
-                  child: Container(
-                    padding: EdgeInsets.all(25.0),
-                    decoration: BoxDecoration(
-                      color: Color(0xff010f1c),
-                      border: Border.all(color: Colors.red, width: 1),
-                    ),
-                    child: Scaffold(
-                      body:Column(children: widget.tasks.map(
-                        (e) => Padding(
-                          padding: EdgeInsets.symmetric(vertical:10),
-                          child:GestureDetector(
-                            onTap: () => setFocused(e),
-                            child:TaskShell(task:e))
-                          )
-                        ).toList()
-                      ),
-                      backgroundColor: Color(0xff010f1c),
-                      floatingActionButton: FloatingActionButton(
-                        onPressed: showAdding,
-                        child: new Icon(Icons.add),
-                        backgroundColor: Color(0xff22eae0),
-                      ),
-                    )
-                  ),
+                  child: MainShell(tasks: tasks, showAdding: showAdding, setFocused: setFocused)
                 ),
                 Expanded(
                   flex: 2,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Color(0xff010f1c),
-                      border: Border.all(color: Colors.red, width: 1),
-                    ),
-                    child: Column(
-                      children: <Widget>[
-                        if(adding == false)
-                          if(focused != null)...[
-                            TaskShell(task:focused),
-                            Container(child: Column(children: focused.subtasks.map((s) => GestureDetector(onTap: ()=>setFocused(s), child:TaskShell(task:s))).toList()))
-                          ],
-                        if(adding == true)
-                          Container(
-                            padding: EdgeInsets.all(25.0),
-                            child: AddForm(addItem),
-                          )
-                      ],
-                    )
-                  ),
+                  child: SubTasksShell(adding: adding, setFocused: setFocused, focused: focused, addItem: addItem,)
                 ),
               ],
             ) 
           )
-          
-          
         ],
       )
     );
