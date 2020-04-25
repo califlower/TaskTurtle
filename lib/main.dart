@@ -30,6 +30,15 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  Task focused;
+
+  void setFocused(Task t){
+    setState(() {
+      focused = t;
+    });
+    print("clicked" + focused.title);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,7 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       color: Color(0xff010f1c),
                       border: Border.all(color: Colors.red, width: 1),
                     ),
-                    child: Column(children: widget.tasks.map((e) => TaskShell(task:e)).toList()),
+                    child: Column(children: widget.tasks.map((e) => GestureDetector(onTap: () => setFocused(e),child:TaskShell(task:e))).toList()),
                   ),
                 ),
                 Expanded(
@@ -64,8 +73,13 @@ class _MyHomePageState extends State<MyHomePage> {
                     decoration: BoxDecoration(
                       color: Color(0xff010f1c),
                       border: Border.all(color: Colors.red, width: 1),
-        
                     ),
+                    child: Column(
+                      children: <Widget>[
+                        if(focused != null)TaskShell(task:focused),
+                        // Container(child: Column(children: focused.subtasks.map((s) => GestureDetector(onTap: ()=>setFocused(s), child:TaskShell(task:s))).toList()))
+                      ],
+                    )
                   ),
                 ),
               ],
