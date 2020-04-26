@@ -14,7 +14,9 @@ class TaskTurtle extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: Home(title: 'TaskTurtle', tasks: [new Task("hello", 'wow', new DateTime.now())]),
+      home: Home(
+          title: 'TaskTurtle',
+          tasks: [new Task("hello", 'wow', new DateTime.now())]),
     );
   }
 }
@@ -33,19 +35,21 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Color(0xff010f1c),
-        title: Text(widget.title),
-      ),
-      body: Column(
-        children: <Widget>[
-          Container(
-            color: Color(0xff012235),
-            height: 100,
-            child: Center(child: Text("Some shit here", style: TextStyle(color: Colors.white))),
-          ),
-          Expanded(
-            child:Row(
+        appBar: AppBar(
+          backgroundColor: Color(0xff010f1c),
+          title: Text(widget.title),
+        ),
+        body: Column(
+          children: <Widget>[
+            Container(
+              color: Color(0xff012235),
+              height: 100,
+              child: Center(
+                  child: Text("Some shit here",
+                      style: TextStyle(color: Colors.white))),
+            ),
+            Expanded(
+                child: Row(
               children: <Widget>[
                 Expanded(
                   flex: 3,
@@ -55,7 +59,10 @@ class _HomeState extends State<Home> {
                       color: Color(0xff010f1c),
                       border: Border.all(color: Colors.red, width: 1),
                     ),
-                    child: Column(children: widget.tasks.map((e) => TaskWidget(task:e)).toList()),
+                    child: Column(
+                        children: widget.tasks
+                            .map((e) => TaskWidget(task: e))
+                            .toList()),
                   ),
                 ),
                 Expanded(
@@ -64,17 +71,12 @@ class _HomeState extends State<Home> {
                     decoration: BoxDecoration(
                       color: Color(0xff010f1c),
                       border: Border.all(color: Colors.red, width: 1),
-        
                     ),
                   ),
                 ),
               ],
-            ) 
-          )
-          
-          
-        ],
-      )
-    );
+            ))
+          ],
+        ));
   }
 }
