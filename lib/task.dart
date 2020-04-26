@@ -44,26 +44,32 @@ class _TaskWidgetState extends State<TaskWidget> {
       ),
       child: Column(
         children: <Widget>[
-          Align(
-            alignment: Alignment.centerLeft, 
-            child: Container(padding: EdgeInsets.all(7.0),child:Text(widget.task.title, style: TextStyle(color: Colors.white)))
-          ),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Container(padding:EdgeInsets.all(7.0), child: Text(widget.task.deadline, style: TextStyle(color: Colors.white)))
-          ),
+          Row(
+            children: <Widget>[
+              Column(children: <Widget>[
+                Align(
+                  alignment: Alignment.centerLeft, 
+                  child: Container(padding: EdgeInsets.all(7.0),child:Text(widget.task.title, style: TextStyle(color: Colors.white)))
+                ),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Container(padding:EdgeInsets.all(7.0), child: Text(widget.task.deadline, style: TextStyle(color: Colors.white)))
+                ),
+              ],),
+            if(widget.task.subtasks.length == 0)
+              FlatButton(
+                onPressed: () => print("completed"),
+                child:Text("Complete"),
+                color: Colors.blue
+              )
+            ],),
           LinearPercentIndicator(
             center: Text((getCompletion()*100).toStringAsFixed(0)+"%", style: TextStyle(color: Colors.white),),
             lineHeight: 14, 
             percent: getCompletion(),
             backgroundColor: Colors.blueGrey, 
             progressColor: Color(0xffe60efe)),
-            // if(widget.task.subtasks.length == 0)
-              // FlatButton(
-              //   onPressed: () => print("completed"),
-              //   child:Text("Complete"),
-              //   color: Colors.blue
-              // )
+            
         ], 
       )
     ); 
