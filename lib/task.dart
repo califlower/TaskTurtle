@@ -27,6 +27,13 @@ class _TaskWidgetState extends State<TaskWidget> {
   
   double completion;
 
+  void completeTask(){
+    setState(() {
+      completion = 1;
+      widget.task.isDone = true;
+    });
+  }
+
   double getCompletion(){
     if(widget.task.subtasks.length == 0){return widget.task.isDone ? 1 : 0;}
     double done = 0.0;
@@ -61,7 +68,7 @@ class _TaskWidgetState extends State<TaskWidget> {
               ),
             if(widget.task.subtasks.length == 0)
               FlatButton(
-                onPressed: () => print("completed"),
+                onPressed: completeTask,
                 child:Text("Complete"),
                 color: Color(0xff22eae0)
               )
