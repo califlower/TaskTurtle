@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'task.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(TaskTurtle());
 }
 
-class MyApp extends StatelessWidget {
+class TaskTurtle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -14,38 +14,42 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'TaskTurtle', tasks: [new Task(title: "Title", deadline:"00.00.0000")]),
+      home: Home(
+          title: 'TaskTurtle',
+          tasks: [new Task("hello", 'wow', new DateTime.now())]),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title, this.tasks}) : super(key: key);
+class Home extends StatefulWidget {
+  Home({Key key, this.title, this.tasks}) : super(key: key);
 
   final String title;
   final List<Task> tasks;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _HomeState createState() => _HomeState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Color(0xff010f1c),
-        title: Text(widget.title),
-      ),
-      body: Column(
-        children: <Widget>[
-          Container(
-            color: Color(0xff012235),
-            height: 100,
-            child: Center(child: Text("Some shit here", style: TextStyle(color: Colors.white))),
-          ),
-          Expanded(
-            child:Row(
+        appBar: AppBar(
+          backgroundColor: Color(0xff010f1c),
+          title: Text(widget.title),
+        ),
+        body: Column(
+          children: <Widget>[
+            Container(
+              color: Color(0xff012235),
+              height: 100,
+              child: Center(
+                  child: Text("Some shit here",
+                      style: TextStyle(color: Colors.white))),
+            ),
+            Expanded(
+                child: Row(
               children: <Widget>[
                 Expanded(
                   flex: 3,
@@ -55,7 +59,10 @@ class _MyHomePageState extends State<MyHomePage> {
                       color: Color(0xff010f1c),
                       border: Border.all(color: Colors.red, width: 1),
                     ),
-                    child: Column(children: widget.tasks.map((e) => TaskShell(task:e)).toList()),
+                    child: Column(
+                        children: widget.tasks
+                            .map((e) => TaskWidget(task: e))
+                            .toList()),
                   ),
                 ),
                 Expanded(
@@ -64,17 +71,12 @@ class _MyHomePageState extends State<MyHomePage> {
                     decoration: BoxDecoration(
                       color: Color(0xff010f1c),
                       border: Border.all(color: Colors.red, width: 1),
-        
                     ),
                   ),
                 ),
               ],
-            ) 
-          )
-          
-          
-        ],
-      )
-    );
+            ))
+          ],
+        ));
   }
 }
