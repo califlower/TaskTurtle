@@ -46,21 +46,24 @@ class _TaskWidgetState extends State<TaskWidget> {
         children: <Widget>[
           Row(
             children: <Widget>[
-              Column(children: <Widget>[
-                Align(
-                  alignment: Alignment.centerLeft, 
-                  child: Container(padding: EdgeInsets.all(7.0),child:Text(widget.task.title, style: TextStyle(color: Colors.white)))
-                ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Container(padding:EdgeInsets.all(7.0), child: Text(widget.task.deadline, style: TextStyle(color: Colors.white)))
-                ),
-              ],),
+              Expanded(
+                flex: 1,
+                child: Column(children: <Widget>[
+                  Align(
+                    alignment: Alignment.centerLeft, 
+                    child: Container(padding: EdgeInsets.all(7.0),child:Text(widget.task.title, style: TextStyle(color: Colors.white)))
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Container(padding:EdgeInsets.all(7.0), child: Text(widget.task.deadline, style: TextStyle(color: Colors.white)))
+                  ),
+                ],),
+              ),
             if(widget.task.subtasks.length == 0)
               FlatButton(
                 onPressed: () => print("completed"),
                 child:Text("Complete"),
-                color: Colors.blue
+                color: Color(0xff22eae0)
               )
             ],),
           LinearPercentIndicator(

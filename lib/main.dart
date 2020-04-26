@@ -35,6 +35,7 @@ class _MyHomePageState extends State<MyHomePage> {
   _MyHomePageState(this.tasks);
   Task focused;
   bool adding;
+  bool addingSub;
   List<Task> tasks;
 
   void setFocused(Task t){
@@ -51,11 +52,25 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  void showAddSub(){
+    setState(() {
+      if(focused != null)
+        addingSub = true;
+    });
+  }
+
   void addItem(Task t){
     setState(() {
       tasks.add(t);
       adding = false;
       focused = t;
+    });
+  }
+
+  void addSubtask(Task c){
+    setState(() {
+      addingSub = false;
+      focused.subtasks.add(c);
     });
   }
 
@@ -82,7 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 Expanded(
                   flex: 2,
-                  child: SubView(adding: adding, setFocused: setFocused, focused: focused, addItem: addItem,)
+                  child: SubView(adding: adding,addSub: addingSub, showAdding: showAddSub,setFocused: setFocused, focused: focused, addItem: addSubtask,)
                 ),
               ],
             ) 
