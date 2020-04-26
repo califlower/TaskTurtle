@@ -43,12 +43,14 @@ class MainView extends StatelessWidget{
 }
 
 class SubView extends StatelessWidget {
-  SubView({Key key, this.adding, this.focused, this.setFocused, this.addItem}) : super(key: key);
+  SubView({Key key, this.adding, this.addSub, this.focused, this.setFocused, this.addItem, this.showAdding}) : super(key: key);
   
   bool adding;
+  bool addSub;
   Task focused;
   Focus setFocused;
   AddItem addItem;
+  Add showAdding;
 
   @override
   Widget build(BuildContext context) {
@@ -57,23 +59,41 @@ class SubView extends StatelessWidget {
         color: Color(0xff010f1c),
         border: Border.all(color: Colors.red, width: 1),
       ),
-      child: Column(
-        children: <Widget>[
-          if(adding == false)
-            if(focused != null)...[
-              TaskWidget(task:focused),
-              Container(child: Column(children: focused.subtasks.map((s) => GestureDetector(
-                onTap: ()=>setFocused(s), 
-                child:TaskWidget(task:s)
-              )).toList()))
-            ],
-          if(adding == true)
-            Container(
-              padding: EdgeInsets.all(25.0),
-              child: AddForm(addItem),
-            )
-        ],
-      )
+      child: Scaffold(
+        body: Column(
+          children: <Widget>[
+            if(adding == false)
+              if(focused != null)...[
+                TaskWidget(task:focused),
+                if(addSub == true)...[
+                  Container(
+                    padding: EdgeInsets.all(25.0),
+                    child: AddSubtaskForm(addItem),
+                  )],
+                Container(child: Column(children: focused.subtasks.map((s) => 
+                  Padding(
+                    padding: EdgeInsets.all(20),
+                    child:GestureDetector(
+                      onTap: ()=>setFocused(s), 
+                      child:TaskWidget(task:s)
+                    )
+                  )
+                ).toList()))
+              ],
+            if(adding == true)
+              Container(
+                padding: EdgeInsets.all(25.0),
+                child: AddForm(addItem),
+              )
+          ],
+        ),
+        backgroundColor: Color(0xff010f1c),
+        floatingActionButton: FloatingActionButton(
+          onPressed: showAdding,
+          child: new Icon(Icons.add),
+          backgroundColor: Color(0xff22eae0),
+        ),
+      ),
     );
   }
 
