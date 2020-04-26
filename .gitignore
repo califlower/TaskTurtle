@@ -4,3 +4,4 @@ android/local.properties
 .idea
 .dart_tool
 TaskTurtle.iml
+*.log
