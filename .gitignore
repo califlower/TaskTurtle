@@ -1,7 +1,9 @@
 .packages
 android/local.properties
+/.dart_tool
 .dart_tool/package_config.json
 .idea
 .dart_tool
 TaskTurtle.iml
 *.log
+
