@@ -4,10 +4,10 @@ import 'forms.dart';
 import 'shell.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(TaskTurtle());
 }
 
-class MyApp extends StatelessWidget {
+class TaskTurtle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
