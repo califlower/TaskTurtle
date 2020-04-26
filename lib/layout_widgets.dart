@@ -64,7 +64,7 @@ class SubView extends StatelessWidget {
               TaskWidget(task:focused),
               Container(child: Column(children: focused.subtasks.map((s) => GestureDetector(
                 onTap: ()=>setFocused(s), 
-                child:TaskShell(task:s)
+                child:TaskWidget(task:s)
               )).toList()))
             ],
           if(adding == true)
