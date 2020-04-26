@@ -14,4 +14,4 @@ Clone repo
 
 Install flutter
 
-Run `flutter pub upgrade`
+Run `flutter pub get`
