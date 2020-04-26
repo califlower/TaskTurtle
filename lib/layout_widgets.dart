@@ -6,8 +6,8 @@ typedef Add = void Function();
 typedef Focus = void Function(Task t);
 typedef AddItem = void Function(Task t);
 
-class MainShell extends StatelessWidget{
-  MainShell({Key key, this.tasks, this.showAdding, this.setFocused}) : super(key: key);
+class MainView extends StatelessWidget{
+  MainView({Key key, this.tasks, this.showAdding, this.setFocused}) : super(key: key);
 
   List<Task> tasks;
   Add showAdding;
@@ -27,7 +27,7 @@ class MainShell extends StatelessWidget{
             padding: EdgeInsets.symmetric(vertical:10),
             child:GestureDetector(
               onTap: () => setFocused(e),
-              child:TaskShell(task:e))
+              child:TaskWidget(task:e))
             )
           ).toList()
         ),
@@ -42,8 +42,8 @@ class MainShell extends StatelessWidget{
   }
 }
 
-class SubTasksShell extends StatelessWidget {
-  SubTasksShell({Key key, this.adding, this.focused, this.setFocused, this.addItem}) : super(key: key);
+class SubView extends StatelessWidget {
+  SubView({Key key, this.adding, this.focused, this.setFocused, this.addItem}) : super(key: key);
   
   bool adding;
   Task focused;
@@ -61,7 +61,7 @@ class SubTasksShell extends StatelessWidget {
         children: <Widget>[
           if(adding == false)
             if(focused != null)...[
-              TaskShell(task:focused),
+              TaskWidget(task:focused),
               Container(child: Column(children: focused.subtasks.map((s) => GestureDetector(
                 onTap: ()=>setFocused(s), 
                 child:TaskShell(task:s)

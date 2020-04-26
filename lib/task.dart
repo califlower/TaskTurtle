@@ -11,26 +11,19 @@ class Task{
   String deadline; //OR DateTime?
   bool isDone;
   List<Task> subtasks;
-
-  // double completion(){
-  //   if(subtasks.length == 0){return isDone ? 1 : 0;}
-  //   double done = 0.0;
-  //   subtasks.forEach((element) {element.isDone ? done++ : done = done;});
-  //   return done / subtasks.length;
-  // }
 }
 
 
-class TaskShell extends StatefulWidget{
-  TaskShell({Key key, this.task}) : super(key: key);
+class TaskWidget extends StatefulWidget{
+  TaskWidget({Key key, this.task}) : super(key: key);
 
   final Task task;
 
   @override
-  _TaskShellState createState() => _TaskShellState();
+  _TaskWidgetState createState() => _TaskWidgetState();
 }
 
-class _TaskShellState extends State<TaskShell> {
+class _TaskWidgetState extends State<TaskWidget> {
   
   double completion;
 
@@ -76,6 +69,4 @@ class _TaskShellState extends State<TaskShell> {
     ); 
     
   }
-
-
 }

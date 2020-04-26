@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'task.dart';
 import 'forms.dart';
-import 'shell.dart';
+import 'layout_widgets.dart';
 
 void main() {
   runApp(TaskTurtle());
@@ -78,11 +78,11 @@ class _MyHomePageState extends State<MyHomePage> {
               children: <Widget>[
                 Expanded(
                   flex: 3,
-                  child: MainShell(tasks: tasks, showAdding: showAdding, setFocused: setFocused)
+                  child: MainView(tasks: tasks, showAdding: showAdding, setFocused: setFocused)
                 ),
                 Expanded(
                   flex: 2,
-                  child: SubTasksShell(adding: adding, setFocused: setFocused, focused: focused, addItem: addItem,)
+                  child: SubView(adding: adding, setFocused: setFocused, focused: focused, addItem: addItem,)
                 ),
               ],
             ) 
