@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'task.dart';
 import 'forms.dart';
 
@@ -7,11 +8,7 @@ typedef Focus = void Function(Task t);
 typedef AddItem = void Function(Task t);
 
 class MainView extends StatelessWidget{
-  MainView({Key key, this.tasks, this.showAdding, this.setFocused}) : super(key: key);
-
-  List<Task> tasks;
-  Add showAdding;
-  Focus setFocused;
+  MainView({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,36 +18,33 @@ class MainView extends StatelessWidget{
         color: Color(0xff010f1c),
         border: Border.all(color: Colors.red, width: 1),
       ),
-      child: Scaffold(
-        body:Column(children: tasks.map(
-          (e) => Padding(
-            padding: EdgeInsets.symmetric(vertical:10),
-            child:GestureDetector(
-              onTap: () => setFocused(e),
-              child:TaskWidget(task:e))
-            )
-          ).toList()
-        ),
-        backgroundColor: Color(0xff010f1c),
-        floatingActionButton: FloatingActionButton(
-          onPressed: showAdding,
-          child: new Icon(Icons.add),
-          backgroundColor: Color(0xff22eae0),
-        ),
-      )
+      child:Consumer<TaskTreeModel>(
+        builder: (context, model, child) {
+          return Scaffold(
+            body: Column(children: model.items.map(
+              (e) => Padding(
+                padding: EdgeInsets.symmetric(vertical:10),
+                child:GestureDetector(
+                  onTap: () => model.setFocused(e),
+                  child:TaskWidget(task:e, complete: model.completeLeafTask,))
+                )
+              ).toList()
+            ),
+          backgroundColor: Color(0xff010f1c),
+          floatingActionButton: FloatingActionButton(
+            onPressed: model.showAddForm,
+            child: new Icon(Icons.add),
+            backgroundColor: Color(0xff22eae0),
+          ),
+        );
+      })
     );
   }
 }
 
 class SubView extends StatelessWidget {
-  SubView({Key key, this.adding, this.addSub, this.focused, this.setFocused, this.addItem, this.showAdding}) : super(key: key);
+  SubView({Key key}) : super(key: key);
   
-  bool adding;
-  bool addSub;
-  Task focused;
-  Focus setFocused;
-  AddItem addItem;
-  Add showAdding;
 
   @override
   Widget build(BuildContext context) {
@@ -59,41 +53,44 @@ class SubView extends StatelessWidget {
         color: Color(0xff010f1c),
         border: Border.all(color: Colors.red, width: 1),
       ),
-      child: Scaffold(
-        body: Column(
-          children: <Widget>[
-            if(adding == false)
-              if(focused != null)...[
-                TaskWidget(task:focused),
-                if(addSub == true)...[
+      child: Consumer<TaskTreeModel>(
+        builder: (context, model, child){
+          return Scaffold(
+            body: Column(
+              children: <Widget>[
+                if(model.adding == false)
+                  if(model.focused != null)...[
+                    TaskWidget(task:model.focused),
+                    if(model.addingSubtask == true)...[
+                      Container(
+                        padding: EdgeInsets.all(25.0),
+                        child: AddSubtaskForm(model.focused, model.addLeafTask)
+                      )],
+                    Container(child: Column(children: model.focused.subtasks.map((s) => 
+                      Padding(
+                        padding: EdgeInsets.all(20),
+                        child:GestureDetector(
+                          onTap: ()=> model.setFocused, 
+                          child:TaskWidget(task:s, complete: model.completeLeafTask,)
+                        )
+                      )
+                    ).toList()))
+                  ],
+                if(model.adding == true)
                   Container(
                     padding: EdgeInsets.all(25.0),
-                    child: AddSubtaskForm(addItem),
-                  )],
-                Container(child: Column(children: focused.subtasks.map((s) => 
-                  Padding(
-                    padding: EdgeInsets.all(20),
-                    child:GestureDetector(
-                      onTap: ()=>setFocused(s), 
-                      child:TaskWidget(task:s)
-                    )
+                    child: AddForm(model.addRootTask),
                   )
-                ).toList()))
               ],
-            if(adding == true)
-              Container(
-                padding: EdgeInsets.all(25.0),
-                child: AddForm(addItem),
-              )
-          ],
-        ),
+            ),
         backgroundColor: Color(0xff010f1c),
         floatingActionButton: FloatingActionButton(
-          onPressed: showAdding,
+          onPressed: model.showAddSubForm,
           child: new Icon(Icons.add),
           backgroundColor: Color(0xff22eae0),
         ),
-      ),
+      );
+      })
     );
   }
 

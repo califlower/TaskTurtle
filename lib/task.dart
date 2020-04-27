@@ -1,5 +1,57 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+
+class TaskTreeModel extends ChangeNotifier {
+  final List<Task> rootTasks = [];
+  int total = 0;
+  Task focused;
+  bool adding;
+  bool addingSubtask;
+
+  UnmodifiableListView<Task> get items => UnmodifiableListView(rootTasks);
+
+  int get size => total;
+
+  void addRootTask(Task t){
+    rootTasks.add(t);
+    total = total + 1;
+    adding = false;
+    notifyListeners(); 
+  }
+
+  void addLeafTask(Task p, Task c){
+    p.subtasks.add(c);
+    addingSubtask = false;
+    notifyListeners();
+  }
+
+  void completeLeafTask(Task c){
+    c.isDone = true;
+    notifyListeners();
+  }
+
+  void showAddForm(){
+    focused = null;
+    adding = true;
+    notifyListeners();
+  }
+
+  void showAddSubForm(){
+    if(focused != null){
+      addingSubtask = true;
+      notifyListeners();
+    }
+  }
+
+  void setFocused(Task t){
+    focused = t;
+    adding = false;
+    notifyListeners();
+  }
+
+}
 
 class Task{
   Task({this.title, this.deadline}){
@@ -7,17 +59,20 @@ class Task{
     subtasks = [];
   } 
 
+  int id;
   String title;
   String deadline; //OR DateTime?
   bool isDone;
   List<Task> subtasks;
 }
 
+typedef CompleteTask = Function(Task t);
 
 class TaskWidget extends StatefulWidget{
-  TaskWidget({Key key, this.task}) : super(key: key);
+  TaskWidget({Key key, this.task, this.complete}) : super(key: key);
 
   final Task task;
+  final CompleteTask complete;
 
   @override
   _TaskWidgetState createState() => _TaskWidgetState();
@@ -30,8 +85,8 @@ class _TaskWidgetState extends State<TaskWidget> {
   void completeTask(){
     setState(() {
       completion = 1;
-      widget.task.isDone = true;
     });
+    widget.complete(widget.task);
   }
 
   double getCompletion(){
@@ -79,7 +134,6 @@ class _TaskWidgetState extends State<TaskWidget> {
             percent: getCompletion(),
             backgroundColor: Colors.blueGrey, 
             progressColor: Color(0xffe60efe)),
-            
         ], 
       )
     ); 
