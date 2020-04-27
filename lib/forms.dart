@@ -82,12 +82,13 @@ class AddFormState extends State<AddForm> {
 
 }
 
-// typedef addSubtaskItem = void Function(Task p, Task c);
+typedef addSubtaskCallback = void Function(Task p, Task c);
 
 class AddSubtaskForm extends StatefulWidget {
-  AddSubtaskForm(this.addNewItem);
+  AddSubtaskForm(this.focused, this.addNewItem);
 
-  final addItemCallback addNewItem;
+  final Task focused;
+  final addSubtaskCallback addNewItem;
 
   @override
   AddSubtaskFormState createState() => AddSubtaskFormState();
@@ -151,7 +152,7 @@ class AddSubtaskFormState extends State<AddSubtaskForm> {
               textColor: Color(0xff012235),
               onPressed: (){
                 if(_formKey.currentState.validate()){
-                  widget.addNewItem(new Task(title: title.text, deadline: date.text));
+                  widget.addNewItem(widget.focused, new Task(title: title.text, deadline: date.text));
                 }
               },
               child:Text("Create"),
