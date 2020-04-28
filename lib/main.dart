@@ -1,10 +1,10 @@
-import 'package:TaskTurtle/faveWidget.dart';
-import 'package:TaskTurtle/favesModel.dart';
-import 'package:TaskTurtle/task.dart';
+import 'package:TaskTurtle/models/favesModel.dart';
+import 'package:TaskTurtle/widgets/faveWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'layoutWidgets.dart';
+import 'models/taskTreeModel.dart';
 
 void main() {
   runApp(TaskTurtle());

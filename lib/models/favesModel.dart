@@ -1,4 +1,4 @@
-import 'package:TaskTurtle/task.dart';
+import 'package:TaskTurtle/models/taskModel.dart';
 import 'package:flutter/cupertino.dart';
 
 class FavesModel extends ChangeNotifier {
