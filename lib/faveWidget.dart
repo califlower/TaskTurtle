@@ -1,10 +1,11 @@
 import 'package:TaskTurtle/favesModel.dart';
+import 'package:TaskTurtle/task.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class FavoritesListWidget extends StatelessWidget {
-  Widget _buildFavoriteItem(String title, String desc, int index) {
+  Widget _buildFavoriteItem(Task task) {
     return Consumer<FavesModel>(
       builder: (context, model, child) {
         return new Container(
@@ -27,13 +28,13 @@ class FavoritesListWidget extends StatelessWidget {
                     children: <Widget>[
                       Align(
                         alignment: Alignment.topLeft,
-                        child:
-                            Text(title, style: TextStyle(color: Colors.white)),
+                        child: Text(task.title,
+                            style: TextStyle(color: Colors.white)),
                       ),
                       Align(
                         alignment: Alignment.topLeft,
-                        child:
-                            Text(desc, style: TextStyle(color: Colors.white)),
+                        child: Text(task.deadline,
+                            style: TextStyle(color: Colors.white)),
                       ),
                     ],
                   ),
@@ -47,7 +48,7 @@ class FavoritesListWidget extends StatelessWidget {
                         padding: EdgeInsets.all(-10.0),
                         color: Colors.white,
                         onPressed: () {
-                          model.deleteFave(index);
+                          model.addRemoveFave(task);
                         },
                         child: new Text("Remove"),
                       )),
@@ -67,8 +68,7 @@ class FavoritesListWidget extends StatelessWidget {
           // ignore: missing_return
           itemBuilder: (context, index) {
             if (index < model.faveList.length) {
-              return _buildFavoriteItem(model.faveList[index].title,
-                  model.faveList[index].deadline, index);
+              return _buildFavoriteItem(model.faveList[index]);
             }
           });
     });
