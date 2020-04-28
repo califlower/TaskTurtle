@@ -1,7 +1,7 @@
 import 'package:TaskTurtle/models/taskModel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'colors.dart';
 import '../models/taskTreeModel.dart';
 import 'addTaskFormWidget.dart';
 import 'taskWidget.dart';
@@ -24,24 +24,61 @@ class TaskListWidget extends StatelessWidget {
         child: Consumer<TaskTreeModel>(builder: (context, model, child) {
           return Scaffold(
             body: Column(
-                children: model.items
-                    .map((e) => Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10),
-                        child: GestureDetector(
-                            onTap: () => model.setFocused(e),
-                            child: Consumer<TaskModel>(
-                                builder: (context, taskModel, child) {
-                              return TaskWidget().buildTaskWidget(e);
-                            }))))
-                    .toList()),
+              children: model.items
+                .map((e) => Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10),
+                    child: GestureDetector(
+                        onTap: () => model.setFocused(e),
+                        child: Consumer<TaskModel>(
+                            builder: (context, taskModel, child) {
+                          return TaskWidget().buildTaskWidget(e);
+                        }))))
+                .toList()),
+            endDrawer: _drawerWidget(model.focused),
             backgroundColor: Color(0xff010f1c),
-            floatingActionButton: FloatingActionButton(
-              onPressed: model.showAddForm,
-              child: new Icon(Icons.add),
-              backgroundColor: Color(0xff22eae0),
-            ),
+            floatingActionButton: new Builder(
+              builder: (context) {
+                return FloatingActionButton(
+              // onPressed: model.showAddForm,
+                  onPressed: Scaffold.of(context).openEndDrawer,
+                  child: new Icon(Icons.add),
+                  backgroundColor: Color(0xff22eae0),
+                );
+              }
+            )
           );
         }));
+  }
+
+  Widget _drawerWidget(TaskModel task){
+    return Container(
+      width: 650,
+      decoration: BoxDecoration(
+        color: Color(0xff010f1c),
+      ),
+      child: Drawer(
+        child: Consumer<TaskTreeModel>(builder: (context, model, child) {
+        return Scaffold(
+          body: Column(
+            children: <Widget>[
+                if (task != null) ...[
+                  TaskWidget().buildTaskWidget(model.focused),
+                  Container(
+                    padding: EdgeInsets.all(25.0),
+                    child:
+                        AddSubtaskForm(model.focused, model.addLeafTask))
+                ],
+                if (task == null)
+                  Container(
+                    padding: EdgeInsets.all(25.0),
+                    child: AddForm(model.addRootTask),
+                  )
+            ],
+          ),
+          backgroundColor: Color(0xff010f1c),
+        );
+      })),
+    );
   }
 }
 

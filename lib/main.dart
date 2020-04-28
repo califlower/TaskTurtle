@@ -55,7 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Row(
               children: <Widget>[
                 Expanded(flex: 3, child: TaskListWidget()),
-                Expanded(flex: 2, child: SubView()),
+                // Expanded(flex: 2, child: SubView()),
               ],
             ))
           ],
