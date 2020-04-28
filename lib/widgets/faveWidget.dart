@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class FavoritesListWidget extends StatelessWidget {
-  Widget _buildFavoriteItem(Task task) {
+  Widget _buildFavoriteItem(TaskModel task) {
     return Consumer<FavesModel>(
       builder: (context, model, child) {
         return new Container(

@@ -1,12 +1,19 @@
-class Task {
-  Task({this.title, this.deadline}) {
-    isDone = false;
-    subtasks = [];
-  }
+import 'package:flutter/widgets.dart';
 
+class TaskModel extends ChangeNotifier {
   int id;
   String title;
   String deadline; //OR DateTime?
   bool isDone;
-  List<Task> subtasks;
+  List<TaskModel> subtasks;
+
+  TaskModel({this.title, this.deadline}) {
+    isDone = false;
+    subtasks = [];
+  }
+
+  void setIsDone(bool isDone) {
+    this.isDone = isDone;
+    notifyListeners();
+  }
 }

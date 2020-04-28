@@ -4,31 +4,26 @@ import 'package:TaskTurtle/models/taskModel.dart';
 import 'package:flutter/cupertino.dart';
 
 class TaskTreeModel extends ChangeNotifier {
-  final List<Task> rootTasks = [];
+  final List<TaskModel> rootTasks = [];
   int total = 0;
-  Task focused;
+  TaskModel focused;
   bool adding;
   bool addingSubtask;
 
-  UnmodifiableListView<Task> get items => UnmodifiableListView(rootTasks);
+  UnmodifiableListView<TaskModel> get items => UnmodifiableListView(rootTasks);
 
   int get size => total;
 
-  void addRootTask(Task t) {
+  void addRootTask(TaskModel t) {
     rootTasks.add(t);
     total = total + 1;
     adding = false;
     notifyListeners();
   }
 
-  void addLeafTask(Task p, Task c) {
+  void addLeafTask(TaskModel p, TaskModel c) {
     p.subtasks.add(c);
     addingSubtask = false;
-    notifyListeners();
-  }
-
-  void completeLeafTask(Task c) {
-    c.isDone = true;
     notifyListeners();
   }
 
@@ -45,7 +40,7 @@ class TaskTreeModel extends ChangeNotifier {
     }
   }
 
-  void setFocused(Task t) {
+  void setFocused(TaskModel t) {
     focused = t;
     adding = false;
     notifyListeners();

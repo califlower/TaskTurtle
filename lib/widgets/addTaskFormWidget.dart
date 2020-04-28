@@ -10,7 +10,7 @@ class AddForm extends StatefulWidget {
   AddFormState createState() => AddFormState();
 }
 
-typedef addItemCallback = void Function(Task t);
+typedef addItemCallback = void Function(TaskModel t);
 
 class AddFormState extends State<AddForm> {
   final _formKey = GlobalKey<FormState>();
@@ -73,7 +73,7 @@ class AddFormState extends State<AddForm> {
             onPressed: () {
               if (_formKey.currentState.validate()) {
                 widget.addNewItem(
-                    new Task(title: title.text, deadline: date.text));
+                    new TaskModel(title: title.text, deadline: date.text));
               }
             },
             child: Text("Create"),
@@ -84,12 +84,12 @@ class AddFormState extends State<AddForm> {
   }
 }
 
-typedef addSubtaskCallback = void Function(Task p, Task c);
+typedef addSubtaskCallback = void Function(TaskModel p, TaskModel c);
 
 class AddSubtaskForm extends StatefulWidget {
   AddSubtaskForm(this.focused, this.addNewItem);
 
-  final Task focused;
+  final TaskModel focused;
   final addSubtaskCallback addNewItem;
 
   @override
@@ -157,7 +157,7 @@ class AddSubtaskFormState extends State<AddSubtaskForm> {
             onPressed: () {
               if (_formKey.currentState.validate()) {
                 widget.addNewItem(widget.focused,
-                    new Task(title: title.text, deadline: date.text));
+                    new TaskModel(title: title.text, deadline: date.text));
               }
             },
             child: Text("Create"),

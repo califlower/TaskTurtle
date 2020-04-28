@@ -1,10 +1,11 @@
 import 'package:TaskTurtle/models/favesModel.dart';
+import 'package:TaskTurtle/models/taskModel.dart';
 import 'package:TaskTurtle/widgets/faveWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'layoutWidgets.dart';
 import 'models/taskTreeModel.dart';
+import 'widgets/taskListWidget.dart';
 
 void main() {
   runApp(TaskTurtle());
@@ -16,6 +17,7 @@ class TaskTurtle extends StatelessWidget {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (context) => TaskTreeModel()),
+          ChangeNotifierProvider(create: (context) => TaskModel()),
           ChangeNotifierProvider(create: (context) => FavesModel()),
         ],
         child: MaterialApp(
@@ -52,7 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Expanded(
                 child: Row(
               children: <Widget>[
-                Expanded(flex: 3, child: MainView()),
+                Expanded(flex: 3, child: TaskListWidget()),
                 Expanded(flex: 2, child: SubView()),
               ],
             ))
