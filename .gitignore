@@ -7,3 +7,4 @@ android/local.properties
 TaskTurtle.iml
 *.log
 
+/build/
