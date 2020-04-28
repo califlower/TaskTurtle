@@ -49,25 +49,29 @@ class TaskWidget {
                           color: Color(0xff22eae0));
                     }),
                     if (task.subtasks.length == 0)
-                      FlatButton(
-                          onPressed: () {
-                            task.setIsDone(true);
-                          },
-                          child: Text("Complete"),
-                          color: Color(0xff22eae0))
+                      Consumer<TaskModel>(builder: (context, model, child) {
+                        return FlatButton(
+                            onPressed: () {
+                              model.setIsDone(task, true);
+                            },
+                            child: Text("Complete"),
+                            color: Color(0xff22eae0));
+                      })
                   ],
                 )
               ],
             ),
-            LinearPercentIndicator(
-                center: Text(
-                  "poop",
-                  style: TextStyle(color: Colors.white),
-                ),
-                lineHeight: 14,
-                percent: 1.0,
-                backgroundColor: Colors.blueGrey,
-                progressColor: Color(0xffe60efe)),
+            Consumer<TaskModel>(builder: (context, model, child) {
+              return LinearPercentIndicator(
+                  center: Text(
+                    (model.getCompletion(task) * 100).toString() + "%",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  lineHeight: 14,
+                  percent: model.getCompletion(task),
+                  backgroundColor: Colors.blueGrey,
+                  progressColor: Color(0xffe60efe));
+            }),
           ],
         ));
   }

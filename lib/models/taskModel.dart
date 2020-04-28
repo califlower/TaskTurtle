@@ -12,8 +12,19 @@ class TaskModel extends ChangeNotifier {
     subtasks = [];
   }
 
-  void setIsDone(bool isDone) {
-    this.isDone = isDone;
+  void setIsDone(TaskModel task, bool isDone) {
+    task.isDone = isDone;
     notifyListeners();
+  }
+
+  double getCompletion(TaskModel task) {
+    if (task.subtasks.length == 0) {
+      return task.isDone ? 1 : 0;
+    }
+    double done = 0.0;
+    task.subtasks.forEach((element) {
+      element.isDone ? done++ : done = done;
+    });
+    return done / task.subtasks.length;
   }
 }
