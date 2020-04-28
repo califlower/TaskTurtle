@@ -1,11 +1,11 @@
-import 'package:TaskTurtle/favesModel.dart';
-import 'package:TaskTurtle/task.dart';
+import 'package:TaskTurtle/models/favesModel.dart';
+import 'package:TaskTurtle/models/taskModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class FavoritesListWidget extends StatelessWidget {
-  Widget _buildFavoriteItem(Task task) {
+  Widget _buildFavoriteItem(TaskModel task) {
     return Consumer<FavesModel>(
       builder: (context, model, child) {
         return new Container(

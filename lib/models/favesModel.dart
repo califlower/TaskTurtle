@@ -1,15 +1,10 @@
-import 'package:TaskTurtle/task.dart';
+import 'package:TaskTurtle/models/taskModel.dart';
 import 'package:flutter/cupertino.dart';
 
 class FavesModel extends ChangeNotifier {
-  final List<Task> faveList = [];
+  final List<TaskModel> faveList = [];
 
-  void deleteFave(int index) {
-    faveList.removeAt(index);
-    notifyListeners();
-  }
-
-  void addRemoveFave(Task task) {
+  void addRemoveFave(TaskModel task) {
     if (!faveList.contains(task)) {
       faveList.add(task);
     } else {
