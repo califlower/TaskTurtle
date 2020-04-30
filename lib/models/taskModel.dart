@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/widgets.dart';
 
 class TaskModel extends ChangeNotifier {
@@ -5,9 +7,10 @@ class TaskModel extends ChangeNotifier {
   String title;
   String deadline; //OR DateTime?
   bool isDone;
+  List<TaskModel> path;
   List<TaskModel> subtasks;
 
-  TaskModel({this.title, this.deadline}) {
+  TaskModel({this.id, this.title, this.deadline, this.path}) {
     isDone = false;
     subtasks = [];
   }

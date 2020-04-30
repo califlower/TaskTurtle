@@ -52,12 +52,8 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             FavoritesListWidget(),
             Expanded(
-                child: Row(
-              children: <Widget>[
-                Expanded(flex: 3, child: TaskListWidget()),
-                // Expanded(flex: 2, child: SubView()),
-              ],
-            ))
+              child: TaskListWidget()
+            ),
           ],
         ));
   }
