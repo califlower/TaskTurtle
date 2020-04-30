@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'colors.dart';
 import '../models/taskTreeModel.dart';
 import 'addTaskFormWidget.dart';
+import 'hand_cursor.dart';
 import 'taskWidget.dart';
 
 typedef Add = void Function();
@@ -29,14 +30,17 @@ class TaskListWidget extends StatelessWidget {
                 _widgetList(model),
               ]
             ),
-            endDrawer: _drawerWidget(model.focused),
+            endDrawer: _drawerWidget(model),
             backgroundColor: Color(0xff010f1c),
             floatingActionButton: new Builder(
               builder: (context) {
-                return FloatingActionButton(
-                  onPressed: Scaffold.of(context).openEndDrawer,
-                  child: new Icon(Icons.add),
-                  backgroundColor: Color(0xff22eae0),
+                return CustomCursor(
+                  cursorStyle: CustomCursor.pointer,
+                  child: FloatingActionButton(
+                    onPressed: Scaffold.of(context).openEndDrawer,
+                    child: new Icon(Icons.add),
+                    backgroundColor: Color(0xff22eae0),
+                  )
                 );
               }
             )
@@ -47,29 +51,46 @@ class TaskListWidget extends StatelessWidget {
 
   Widget _focusedPath(TaskTreeModel model){
     if(model.focused == null){
-      return Container(
-        decoration: BoxDecoration(
-          color: Color(0xff010f1c),
-          border: Border.all(color: Colors.green, width: 1),
-        ),
-        child: Row(
-        children: <Widget>[
-          GestureDetector(
-            child: Text("/", style: TextStyle(color: Palette.TEAL),),
-            onTap: () => model.setFocused(null)
-          ),
-        ],
-      ));
+      model.setFocused(model.root);
+      // return Container(
+      //   decoration: BoxDecoration(
+      //     color: Color(0xff010f1c),
+      //     border: Border.all(color: Colors.green, width: 1),
+      //   ),
+      //   child: Row(
+      //   children: <Widget>[
+      //     Padding(
+      //       padding: EdgeInsets.symmetric(vertical: 5),
+      //       child:  CustomCursor(
+      //         cursorStyle: CustomCursor.pointer,
+      //         child: GestureDetector(
+      //           child: Text("/ ", style: TextStyle(color: Palette.TEAL),),
+      //           onTap: () => model.setFocused(null)
+      //         )
+      //       ),
+      //     )
+      //   ],
+      // ));
     }
-    return Row(
-      children: model.focused.path.map((t) => Padding(
-        padding: EdgeInsets.symmetric(vertical: 10),
-        child: GestureDetector(
-          onTap: () => model.setFocused(t),
-          child: Text(truncateWithEllipsis(5, t.title)),
+    return Container(
+      decoration: BoxDecoration(
+        color: Color(0xff010f1c),
+        border: Border.all(color: Colors.green, width: 1),
+      ),
+      child: Row(
+        children: model.focused.path.map((t) => Padding(
+          padding: EdgeInsets.symmetric(vertical: 5),
+          child: CustomCursor(
+            cursorStyle: CustomCursor.pointer,
+            child:GestureDetector(
+              onTap: () => model.setFocused(t),
+              child: Text(truncateWithEllipsis(5, " " + t.title +" / "), style: TextStyle(color: Palette.TEAL),),
+            )
           )
         )
-      ).toList()
+        ).toList() 
+        + [Padding(padding: EdgeInsets.symmetric(vertical: 5), child: CustomCursor(cursorStyle:CustomCursor.pointer,child:GestureDetector(onTap: (){}, child: Text(model.focused.title + " /", style: TextStyle(color: Palette.TEAL),),)))]
+      )
     );
   }
 
@@ -93,34 +114,30 @@ class TaskListWidget extends StatelessWidget {
       .toList());
   }
 
-  Widget _drawerWidget(TaskModel task){
+  Widget _drawerWidget(TaskTreeModel model){
+    if(model.focused == null){
+      model.setFocused(model.root);
+    }
     return Container(
       width: 650,
       decoration: BoxDecoration(
         color: Color(0xff010f1c),
       ),
       child: Drawer(
-        child: Consumer<TaskTreeModel>(builder: (context, model, child) {
-        return Scaffold(
+        child: Scaffold(
           body: Column(
             children: <Widget>[
-                if (task != null) ...[
+                if(model.focused.id != 0)
                   TaskWidget().buildTaskWidget(model.focused),
-                  Container(
-                    padding: EdgeInsets.all(25.0),
-                    child:
-                        AddSubtaskForm(model.focused, model.addLeafTask))
-                ],
-                if (task == null)
-                  Container(
-                    padding: EdgeInsets.all(25.0),
-                    child: AddForm(model.addRootTask),
-                  )
+                Container(
+                  padding: EdgeInsets.all(25.0),
+                  child: AddForm(model.focused, model.addTask),
+                )
             ],
           ),
           backgroundColor: Color(0xff010f1c),
-        );
-      })),
+        ),
+      ),
     );
   }
 }
