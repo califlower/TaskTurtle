@@ -52,25 +52,6 @@ class TaskListWidget extends StatelessWidget {
   Widget _focusedPath(TaskTreeModel model){
     if(model.focused == null){
       model.setFocused(model.root);
-      // return Container(
-      //   decoration: BoxDecoration(
-      //     color: Color(0xff010f1c),
-      //     border: Border.all(color: Colors.green, width: 1),
-      //   ),
-      //   child: Row(
-      //   children: <Widget>[
-      //     Padding(
-      //       padding: EdgeInsets.symmetric(vertical: 5),
-      //       child:  CustomCursor(
-      //         cursorStyle: CustomCursor.pointer,
-      //         child: GestureDetector(
-      //           child: Text("/ ", style: TextStyle(color: Palette.TEAL),),
-      //           onTap: () => model.setFocused(null)
-      //         )
-      //       ),
-      //     )
-      //   ],
-      // ));
     }
     return Container(
       decoration: BoxDecoration(
@@ -84,7 +65,7 @@ class TaskListWidget extends StatelessWidget {
             cursorStyle: CustomCursor.pointer,
             child:GestureDetector(
               onTap: () => model.setFocused(t),
-              child: Text(truncateWithEllipsis(5, " " + t.title +" / "), style: TextStyle(color: Palette.TEAL),),
+              child: Text(" " + truncateWithEllipsis(5,t.title) + " / ", style: TextStyle(color: Palette.TEAL),),
             )
           )
         )
@@ -101,17 +82,33 @@ class TaskListWidget extends StatelessWidget {
   }
 
   Widget _widgetList(TaskTreeModel model){
-    return Column(
-      children: model.items.map((e) => 
-        Padding(
-          padding: EdgeInsets.symmetric(vertical: 10),
-          child: GestureDetector(
-              onTap: () => model.setFocused(e),
-              child: Consumer<TaskModel>(
-                  builder: (context, taskModel, child) {
-                return TaskWidget().buildTaskWidget(e);
-              }))))
-      .toList());
+    if(model.focused==null){
+      model.setFocused(model.root);
+    }
+    if(model.focused.id == 0)
+      return Column(
+        children: model.items.map((e) => 
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 10),
+            child: GestureDetector(
+                onTap: () => model.setFocused(e),
+                child: Consumer<TaskModel>(
+                    builder: (context, taskModel, child) {
+                  return TaskWidget().buildTaskWidget(e);
+                }))))
+        .toList());
+    else
+      return Column(
+        children: [Padding(padding: EdgeInsets.all(1) ,child:Consumer<TaskModel>(builder: (context, value, child) => TaskWidget().buildTaskWidget(model.focused),))] + model.items.map((e) => 
+          Padding(
+            padding: EdgeInsets.all(20),
+            child: GestureDetector(
+                onTap: () => model.setFocused(e),
+                child: Consumer<TaskModel>(
+                    builder: (context, taskModel, child) {
+                  return TaskWidget().buildTaskWidget(e);
+                }))))
+        .toList());
   }
 
   Widget _drawerWidget(TaskTreeModel model){

@@ -10,7 +10,7 @@ class TaskTreeModel extends ChangeNotifier {
   bool adding;
   bool addingSubtask;
 
-  UnmodifiableListView<TaskModel> get items => UnmodifiableListView(root.subtasks);
+  UnmodifiableListView<TaskModel> get items => UnmodifiableListView(focused.subtasks);
 
   int get size => total;
 
